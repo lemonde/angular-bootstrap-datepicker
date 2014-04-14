@@ -12,7 +12,7 @@
 
 angular
   .module('bootstrap-datepicker', [])
-  .directive('inputDate', ['dateFilter', function (dateFilter) {
+  .directive('bootstrapDatepicker', ['dateFilter', function (dateFilter) {
 
     var FORMAT_ISOSTRING = 'ISOString';
     var FORMAT_DEFAULT = 'dd/mm/yyyy';

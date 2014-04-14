@@ -1,5 +1,4 @@
 var expect = chai.expect;
-// mocha.setup({globals: ['ch']});
 
 describe('Input date directive', function () {
   var $compile, $rootScope, scope, element;
@@ -18,7 +17,7 @@ describe('Input date directive', function () {
       scope.dateForPicker = new Date(2013, 11, 1, 12).toISOString();
 
       element = $compile('<input class="form-control"' +
-        ' input-date type="text"' +
+        ' bootstrap-datepicker type="text"' +
         ' ng-model="dateForPicker"' +
         ' date-format="ISOString">')(scope);
 
@@ -54,7 +53,7 @@ describe('Input date directive', function () {
       scope.dateForPicker = '2013-01-31';
 
       element = $compile('<input class="form-control"' +
-        ' input-date type="text"' +
+        ' bootstrap-datepicker type="text"' +
         ' ng-model="dateForPicker"' +
         ' date-format="yyyy-mm-dd">')(scope);
 
