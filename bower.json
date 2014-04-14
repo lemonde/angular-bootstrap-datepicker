@@ -1,0 +1,22 @@
+{
+  "name": "angular-bootstrap-datepicker",
+  "version": "0.0.0",
+  "homepage": "https://github.com/lemonde/angular-bootstrap-datepicker",
+  "authors": [
+    "yej <jutard@lemonde.fr>"
+  ],
+  "description": "Bootstrap datepicker directive for Angular.",
+  "main": "angular-bootstrap-datepicker.js",
+  "keywords": [
+    "bootstrap",
+    "datepicker"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap-datepicker": "^1.3.0",
+    "angular": "^1.2.16"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.2.16"
+  }
+}
