@@ -1,6 +1,6 @@
 {
   "name": "angular-bootstrap-datepicker",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Bootstrap datepicker directive for Angular.",
   "main": "angular-bootstrap-datepicker.js",
   "scripts": {
