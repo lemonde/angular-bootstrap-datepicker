@@ -56,6 +56,7 @@ angular
       },
       link: function (scope, element, attrs, ngModelCtrl) {
 
+        var initialized = false; //< state : is our controller initialized ?
         scope.$watch('datepickerOptions', function(current, previous) {
           if(!current) return;
           // reset datepicker to apply the new options
@@ -72,6 +73,8 @@ angular
           element.val(datepickerValue);
           // We can now instantiate the datepicker
           element.datepicker( computeDatepickerOptions(scope) );
+          // done
+          initialized = true;
         }
 
 
@@ -94,6 +97,12 @@ angular
         // angular input formatting pipeline
         ngModelCtrl.$formatters.unshift(function (modelValue) {
           var datepickerValue = formatIn(modelValue);
+
+          // We uses this unshift function call as a detector of model readiness.
+          // (couldn't find another way)
+          if(!initialized) {
+            initialize(datepickerValue);
+          }
 
           return datepickerValue;
         });

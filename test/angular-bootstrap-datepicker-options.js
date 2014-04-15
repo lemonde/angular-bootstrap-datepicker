@@ -35,7 +35,7 @@ describe('Input date directive', function () {
       expect( scope.datePickerOptions.beforeShowDay).to.have.been.called;
     });
 
-    it.only('should be applied on dynamic change', function () {
+    it('should be applied on dynamic change', function () {
 
       expect( scope.datePickerOptions.beforeShowDay).to.have.been.called;
 

@@ -13,8 +13,10 @@ describe('Input date directive', function () {
   }));
 
   describe('configured in ISO format', function() {
+    var datepickerFn;
 
     beforeEach(function () {
+      datepickerFn = sinon.spy(window.jQuery.fn, 'datepicker');
       scope.dateForPicker = new Date(2013, 11, 1, 12).toISOString();
 
       element = $compile('<input class="form-control"' +
@@ -25,7 +27,15 @@ describe('Input date directive', function () {
       scope.$digest();
     });
 
-    it('should correctly init date from ISO format', function () {
+    afterEach(function () {
+      datepickerFn.restore();
+    });
+
+    it('should correctly init the widget', function () {
+      expect( datepickerFn).to.have.been.called;
+    });
+
+    it('should correctly init the date from ISO format', function () {
       // internal datepicker format
       expect(element.val()).to.equal('01/12/2013');
     });
