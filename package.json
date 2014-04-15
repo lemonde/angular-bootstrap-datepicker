@@ -1,6 +1,6 @@
 {
   "name": "angular-bootstrap-datepicker",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Bootstrap datepicker directive for Angular.",
   "main": "angular-bootstrap-datepicker.js",
   "scripts": {
@@ -32,6 +32,5 @@
     "sinon": "^1.9.1",
     "sinon-chai": "^2.5.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
