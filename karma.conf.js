@@ -18,7 +18,21 @@ module.exports = function (config) {
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
 
+      'node_modules/lodash/dist/lodash.js',
       'node_modules/chai/chai.js',
+      'node_modules/chai/chai.js',
+
+      'node_modules/sinon/lib/sinon.js',
+      'node_modules/sinon/lib/sinon/assert.js',
+      'node_modules/sinon/lib/sinon/behavior.js',
+      'node_modules/sinon/lib/sinon/call.js',
+      'node_modules/sinon/lib/sinon/collection.js',
+      'node_modules/sinon/lib/sinon/match.js',
+      'node_modules/sinon/lib/sinon/spy.js',
+      'node_modules/sinon/lib/sinon/mock.js',
+      'node_modules/sinon/lib/sinon/stub.js',
+
+      'node_modules/sinon-chai/lib/sinon-chai.js',
 
       'angular-bootstrap-datepicker.js',
       'test/*.js'

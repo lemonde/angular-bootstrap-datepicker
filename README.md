@@ -38,15 +38,26 @@ angular
 ```
 
 In view :
+
 ```html
 <input bootstrap-datepicker required type="text" class="form-control"
 placeholder="JJ/MM/AAAA"
 ng-model="editionDate"
 date-format="ISOString"
+datepicker-options="datepickerOptions"
 ng-disabled="defaultMetadata" />
 ```
 
-See available features http://bootstrap-datepicker.readthedocs.org/en/release/options.html
+Options :
+
+The datepicker is configured with default options : fr, autoclose, french date format
+
+* `@param {string} date-format (optional)` datepicker output format (ex. 'yyyy-mm-dd') or 'ISOString'.
+See http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
+* `@param {object} datepicker-options (optional)` datepicker options object
+as described in http://bootstrap-datepicker.readthedocs.org/en/release/options.html
+This object is merged with default options.
+This object is watched and the datepicker is reseted on change.
 
 ## License
 

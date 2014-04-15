@@ -3,13 +3,19 @@
  * Based on bootstrap-datepicker
  * See available features http://bootstrap-datepicker.readthedocs.org/en/release/options.html
  *
+ * Default options : fr, autoclose, french date format
  * Added feature :
  * - an 'ISOString' format
  *
- * @param {string} format datepicker output format (ex. 'yyyy-mm-dd') or 'ISOString'
+ * Inputs:
+ * @param {string} format (optional) datepicker output format (ex. 'yyyy-mm-dd') or 'ISOString'
  *                 see http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
+ * @param {object} datepickerOptions (optional) datepicker options object as described in
+ *                 http://bootstrap-datepicker.readthedocs.org/en/release/options.html
+ *                 This object is merged with default options.
+ *                 This object is watched and the datepicker is reseted on change.
+ *
  */
-
 angular
   .module('bootstrap-datepicker', [])
   .directive('bootstrapDatepicker', ['dateFilter', function (dateFilter) {
@@ -27,6 +33,11 @@ angular
         format: FORMAT_DEFAULT
       };
 
+      // custom options (optional)
+      if(scope.datepickerOptions) {
+        _.merge(datepickerOptions, scope.datepickerOptions);
+      }
+
       // output format
       // set it only if it's a datepicker known format
       if( scope.dateFormat && scope.dateFormat !== FORMAT_ISOSTRING)
@@ -40,11 +51,17 @@ angular
       require: 'ngModel',
       restrict: 'A',
       scope: {
-        dateFormat: '@'
+        dateFormat: '@',
+        datepickerOptions: '='
       },
       link: function (scope, element, attrs, ngModelCtrl) {
 
-        var initialized = false; //< state : is our controller initialized ?
+        scope.$watch('datepickerOptions', function(current, previous) {
+          if(!current) return;
+          // reset datepicker to apply the new options
+          element.datepicker('remove'); // send 'remove' command to the existing datepicker
+          initialize(element.val());
+        }, true);
 
         // Initialize controller, creating the datepicker widget.
         // For current date to be correctly set in datepicker,
@@ -55,8 +72,6 @@ angular
           element.val(datepickerValue);
           // We can now instantiate the datepicker
           element.datepicker( computeDatepickerOptions(scope) );
-          // done
-          initialized = true;
         }
 
 
@@ -79,12 +94,6 @@ angular
         // angular input formatting pipeline
         ngModelCtrl.$formatters.unshift(function (modelValue) {
           var datepickerValue = formatIn(modelValue);
-
-          // We uses this function call as a detector of model readiness.
-          // (couldn't find another way)
-          if(!initialized) {
-            initialize(datepickerValue);
-          }
 
           return datepickerValue;
         });

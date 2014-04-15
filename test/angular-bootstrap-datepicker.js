@@ -1,4 +1,5 @@
 var expect = chai.expect;
+chai.config.includeStack = true; // defaults to false
 
 describe('Input date directive', function () {
   var $compile, $rootScope, scope, element;
