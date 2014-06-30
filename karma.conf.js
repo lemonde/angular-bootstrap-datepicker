@@ -17,6 +17,7 @@ module.exports = function (config) {
       'bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js',
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
+      'bower_components/moment/moment',
 
       'node_modules/lodash/dist/lodash.js',
       'node_modules/chai/chai.js',
@@ -31,6 +32,7 @@ module.exports = function (config) {
       'node_modules/sinon/lib/sinon/spy.js',
       'node_modules/sinon/lib/sinon/mock.js',
       'node_modules/sinon/lib/sinon/stub.js',
+      'node_modules/moment/moment.js',
 
       'node_modules/sinon-chai/lib/sinon-chai.js',
 

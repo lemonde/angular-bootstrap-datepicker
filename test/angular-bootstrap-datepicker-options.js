@@ -32,12 +32,11 @@ describe('Input date directive', function () {
     });
 
     it('should be taken into account at start', function () {
-      expect( scope.datePickerOptions.beforeShowDay).to.have.been.called;
+      expect(scope.datePickerOptions.beforeShowDay).to.have.been.called;
     });
 
     it('should be applied on dynamic change', function () {
-
-      expect( scope.datePickerOptions.beforeShowDay).to.have.been.called;
+      expect(scope.datePickerOptions.beforeShowDay).to.have.been.called;
 
       // change options
       scope.datePickerOptions.toto = 1;
@@ -45,13 +44,13 @@ describe('Input date directive', function () {
       scope.datePickerOptions.beforeShowDay.reset();
 
       // not called yet
-      expect( scope.datePickerOptions.beforeShowDay).to.not.have.been.called;
+      expect(scope.datePickerOptions.beforeShowDay).to.not.have.been.called;
 
       // for watch to trigger
       scope.$digest();
 
       // ok
-      expect( scope.datePickerOptions.beforeShowDay).to.have.been.called;
+      expect(scope.datePickerOptions.beforeShowDay).to.have.been.called;
     });
 
   });
