@@ -16,7 +16,7 @@ describe('Input date directive', function () {
   describe('dynamic reconfiguration', function() {
 
     beforeEach(function () {
-      scope.dateForPicker = '01/01/1901';
+      scope.dateForPicker = '1901-01-01';
 
       // we'll use this hook function as a reset detector
       scope.datePickerOptions = {
@@ -31,15 +31,12 @@ describe('Input date directive', function () {
       scope.$digest();
     });
 
-    it('should be taken into account at start', function () {
-      expect(scope.datePickerOptions.beforeShowDay).to.have.been.called;
-    });
-
-    it('should be applied on dynamic change', function () {
+    it('should be applied at start and on dynamic change', function () {
       expect(scope.datePickerOptions.beforeShowDay).to.have.been.called;
 
       // change options
       scope.datePickerOptions.toto = 1;
+
       // reset our detector
       scope.datePickerOptions.beforeShowDay.reset();
 
