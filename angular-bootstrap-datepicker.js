@@ -20,114 +20,87 @@ angular
   .module('bootstrap-datepicker', [])
   .directive('bootstrapDatepicker', ['dateFilter', function (dateFilter) {
 
-    var FORMAT_ISOSTRING = 'ISOString';
+    // bootstrap datepicker display format
+    // use only d, dd, m, mm, yy, yyyy
     var FORMAT_DEFAULT = 'dd/mm/yyyy';
 
-
-    function computeDatepickerOptions(scope) {
-
-      // default options
-      var datepickerOptions = {
-        language: 'fr',
-        autoclose: true, // click on a day closes the datepicker
-        format: FORMAT_DEFAULT
-      };
-
-      // custom options (optional)
-      if(scope.datepickerOptions) {
-        _.merge(datepickerOptions, scope.datepickerOptions);
-      }
-
-      // output format
-      // set it only if it's a datepicker known format
-      if( scope.dateFormat && scope.dateFormat !== FORMAT_ISOSTRING)
-        datepickerOptions.format = scope.dateFormat;
-
-      return datepickerOptions;
-    }
-
+    // moment / cms formats
+    var FORMAT_IO_DEFAULT = 'YYYY-MM-DD';
 
     return {
       require: 'ngModel',
       restrict: 'A',
       scope: {
-        dateFormat: '@',
-        datepickerOptions: '='
+        datepickerOptions: '=',
+        datepickerIoFormat: '@'
       },
       link: function (scope, element, attrs, ngModelCtrl) {
 
         var initialized = false; //< state : is our controller initialized ?
+        var datepickerMomentFormat;
+
+        // init / reinit if datepickerOptions change
         scope.$watch('datepickerOptions', function(current, previous) {
-          if(!current) return;
+          if (! current) return;
+          if (_.isEqual(current, previous)) return;
           // reset datepicker to apply the new options
           element.datepicker('remove'); // send 'remove' command to the existing datepicker
-          initialize(element.val());
+          initialize();
         }, true);
+
+        // angular input formatting pipeline
+        ngModelCtrl.$formatters.unshift(function (modelValue) {
+          // We uses this unshift function call as a detector of model readiness.
+          // (couldn't find another way)
+          if(! initialized) initialize();
+
+          return formatIn(modelValue);
+        });
+
+        // angular output formatting pipeline
+        ngModelCtrl.$parsers.unshift(function () {
+          return formatOut(element.val());
+        });
 
         // Initialize controller, creating the datepicker widget.
         // For current date to be correctly set in datepicker,
         // we must wait for the model to be ready.
-        function initialize(datepickerValue) {
-          // init datepicker current val by setting element value
-          // which datepicker uses as its data store.
-          element.val(datepickerValue);
+        function initialize() {
+          var options = _.defaults({}, scope.datepickerOptions, {
+            language: 'fr',
+            autoclose: true, // click on a day closes the datepicker
+            format: FORMAT_DEFAULT
+          });
+
+          // datepicker and moment formats are differents, we need to convert <=> from lower to upper case
+          // use only d, dd, m, mm, yy, yyyy
+          datepickerMomentFormat = (options.format ? options.format : FORMAT_DEFAULT).toUpperCase();
+
           // We can now instantiate the datepicker
-          element.datepicker( computeDatepickerOptions(scope) );
+          element.datepicker(options);
+
           // done
           initialized = true;
         }
-
 
         // format from model format to datepicker internal format
         function formatIn(modelValue) {
           if(! modelValue) return;
 
-          // custom formats
-          if(scope.dateFormat === FORMAT_ISOSTRING) {
-            // Use angular formatter which understand ISO strings
-            // and convert it to FORMAT_DEFAULT format.
-            // Mind the angular MM which correspond to datepicker mm
-            // http://devdocs.io/angular/ng.filter-date
-            return dateFilter(modelValue, 'dd/MM/yyyy');
-          }
+          var momentDate = moment(modelValue, scope.datepickerIoFormat ? scope.datepickerIoFormat : FORMAT_IO_DEFAULT);
 
-          // standard formats
-          return modelValue; // datepicker will take care
+          return momentDate.format(datepickerMomentFormat);
         }
-        // angular input formatting pipeline
-        ngModelCtrl.$formatters.unshift(function (modelValue) {
-          var datepickerValue = formatIn(modelValue);
-
-          // We uses this unshift function call as a detector of model readiness.
-          // (couldn't find another way)
-          if(!initialized) {
-            initialize(datepickerValue);
-          }
-
-          return datepickerValue;
-        });
 
         // format from datepicker internal format to model format
         function formatOut(datepickerValue) {
+          if (! datepickerValue) return;
 
-          // custom formats
-          if(scope.dateFormat === FORMAT_ISOSTRING) {
-            // we expect data in FORMAT_DEFAULT
-            var day = datepickerValue.split('/')[0];
-            var month = datepickerValue.split('/')[1]; // month in 1-12
-            var year = datepickerValue.split('/')[2];
-            var date = new Date(year, month - 1, day);
-
-            return isNaN(date) ? null : date.toISOString();
-          }
+          var momentDate = moment(datepickerValue, datepickerMomentFormat);
 
           // standard formats
-          return datepickerValue;
+          return momentDate.format(scope.datepickerIoFormat ? scope.datepickerIoFormat : FORMAT_IO_DEFAULT);
         }
-        // angular output formatting pipeline
-        ngModelCtrl.$parsers.unshift(function () {
-          return formatOut(element.val());
-        });
       }
     };
   }]);
