@@ -18,8 +18,8 @@ module.exports = function (config) {
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/moment/moment',
+      'bower_components/lodash/dist/lodash.js',
 
-      'node_modules/lodash/dist/lodash.js',
       'node_modules/chai/chai.js',
       'node_modules/chai/chai.js',
 
