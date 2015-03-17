@@ -18,9 +18,9 @@ bower install https://github.com/lemonde/angular-bootstrap-datepicker.git
 
 ### Resources setup
 
- 1. Integrate the CSS stylesheet `components/bootstrap-datepicker/css/datepicker3.css`
- 1. Integrate the datepicker js code `components/bootstrap-datepicker/js/bootstrap-datepicker.js`
- 1. (optional) integrate desired datepicker translations `components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js`
+ 1. Integrate the CSS stylesheet `components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css`
+ 2. Integrate the datepicker js code `components/bootstrap-datepicker/js/bootstrap-datepicker.js`
+ 3. (optional) integrate desired datepicker translations `components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js`
 
 ### Directive instanciation
 
