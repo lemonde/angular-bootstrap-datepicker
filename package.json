@@ -4,7 +4,7 @@
   "description": "Bootstrap datepicker directive for Angular.",
   "main": "angular-bootstrap-datepicker.js",
   "scripts": {
-    "install": "bower install",
+    "postinstall": "bower install",
     "test": "./node_modules/karma/bin/karma start --single-run"
   },
   "repository": {
@@ -32,7 +32,7 @@
     "mocha": "~1.20.1",
     "sinon": "~1.10.3",
     "sinon-chai": "~2.5.0",
-    "moment": "~2.8.1"
+    "moment": "~2.10.6"
   },
   "dependencies": {}
 }
