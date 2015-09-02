@@ -18,7 +18,7 @@
  */
 angular
   .module('bootstrap-datepicker', [])
-  .directive('bootstrapDatepicker', ['dateFilter', function (dateFilter) {
+  .directive('bootstrapDatepicker', ['$timeout', 'dateFilter', function ($timeout, dateFilter) {
 
     // bootstrap datepicker display format
     // use only d, dd, m, mm, yy, yyyy
