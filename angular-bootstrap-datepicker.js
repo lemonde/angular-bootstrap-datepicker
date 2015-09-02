@@ -54,6 +54,7 @@ angular
             // reset the datepicker to clear its internal state (whom we suppose is wrong)
             element.datepicker('remove');
             initialize();
+            event.preventDefault(); // prevent the enter key event from being passed to other DOM elements
           }
         });
 
