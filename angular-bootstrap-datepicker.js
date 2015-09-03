@@ -18,10 +18,11 @@
  */
 angular
   .module('bootstrap-datepicker', [])
-  .directive('bootstrapDatepicker', ['dateFilter', function (dateFilter) {
+  .directive('bootstrapDatepicker', ['$timeout', 'dateFilter', function ($timeout, dateFilter) {
 
     // bootstrap datepicker display format
     // use only d, dd, m, mm, yy, yyyy
+    // cf. http://bootstrap-datepicker.readthedocs.org/en/latest/options.html#format
     var FORMAT_DEFAULT = 'dd/mm/yyyy';
 
     // moment / cms formats
@@ -39,22 +40,57 @@ angular
         var initialized = false; //< state : is our controller initialized ?
         var datepickerMomentFormat;
 
+        // If we close the date picker, it won't reappear until we blur/focus again.
+        // This helper make it reappear on every click on the parent element, more convenient.
+        element.on('click', function() {
+          element.datepicker('show');
+        });
+
+        // Bootstrap datepicker has a strange behaviour on "enter", even with keyboard support set to false.
+        // If not empty, it clears the field. If empty, it sets the last selected date.
+        // We attempt to correct it.
+        element.on('keydown', function(event) {
+          if(event.keyCode === 13) {
+            // reset the datepicker to clear its internal state (whom we suppose is wrong)
+            element.datepicker('remove');
+            initialize();
+            event.preventDefault(); // prevent the enter key event from being passed to other DOM elements
+          }
+        });
+
         // init / reinit if datepickerOptions change
         scope.$watch('datepickerOptions', function(current, previous) {
           if (! current) return;
           if (_.isEqual(current, previous)) return;
-          // reset datepicker to apply the new options
-          element.datepicker('remove'); // send 'remove' command to the existing datepicker
-          initialize();
+          if(initialized) {
+            // reset datepicker to apply the new options
+            element.datepicker('remove'); // send 'remove' command to the existing datepicker
+            initialize();
+          }
         }, true);
 
         // angular input formatting pipeline
         ngModelCtrl.$formatters.unshift(function (modelValue) {
+
           // We uses this unshift function call as a detector of model readiness.
           // (couldn't find another way)
-          if(! initialized) initialize();
+          // WARNING : the remaining of this function expects initialization to be done.
+          if(! initialized) {
+            initialize();
+          }
 
-          return formatIn(modelValue);
+          // now that init is done, we can do the conversion
+
+          var datepickerValue = formatIn(modelValue);
+
+          if(datepickerValue) {
+            // Helps datepicker to pick the current model value
+            $timeout(function () {
+              element.datepicker('update', datepickerValue);
+            });
+          }
+
+          return datepickerValue;
         });
 
         // angular output formatting pipeline
